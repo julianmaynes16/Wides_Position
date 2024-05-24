@@ -7,7 +7,6 @@
 #include <system_error>
 #include <iomanip>
 #include <fstream>
-#include <windows.h>
 #include <iostream>
 
 #define LOOP_LIM 1000
