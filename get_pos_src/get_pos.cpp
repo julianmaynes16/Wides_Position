@@ -1,5 +1,5 @@
 #include <iostream>
-#include <wiringPi.h>
+#include <pigpio.h>
 #include <vector>
 #include <chrono>
 //#include <rs_pipeline.h>
@@ -12,13 +12,13 @@
 #define LOOP_LIM 1000
 
 int main() {
-    wiringPiSetupGpio();
-    pinMode (17,INPUT);
+    gpioInitialise();
+    gpioSetMode(17, PI_INPUT);
     std::cout << "T265 Pose - Matrix ver." << std::endl;
     std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
-    int value = digitalRead(17);
+    int value = gpioRead(17);
     while(value != HIGH){
-      value = digitalRead(17);
+      value = gpioRead(17);
     }
     std::cout << "Beginning data collection..." << std::endl;
     rs2::pipeline pipe;
@@ -26,7 +26,7 @@ int main() {
     cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
     pipe.start(cfg);
     std::cout << "Pipeline successfully started" << std::endl;
-
+    gpioTerminate();
     //std::vector<std::array<float, 3>> pos_matrix(2000);
     //std::vector<std::vector<int>> pos_matrix());
     //std::vector<float> time_datenum(1000);
