@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <pigpio.h>
 #include <vector>
 #include <chrono>
@@ -8,10 +8,11 @@
 #include <iomanip>
 #include <fstream>
 #include <iostream>
+#include <cstring>
 
 #define LOOP_LIM 1000
 
-int main() {
+int main(int argc, char *argv[]){
     gpioInitialise();
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
