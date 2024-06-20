@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
         int value = gpioRead(17);
         //read returns 1 if pin is HIGH
         while(value != 1){
-        value = gpioRead(17);
+            value = gpioRead(17);
         }
     }
     std::cout << "Beginning data collection..." << std::endl;
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]){
 
         //put values into a matrix
         //pos_matrix_item[0] = time_count;
-        pos_matrix_item[0] = frame.get_timestamp();
+        //pos_matrix_item[0] = frame.get_timestamp();
         pos_matrix_item[1] = pose_data.translation.x;
         pos_matrix_item[2] = pose_data.translation.y;
         pos_matrix_item[3] = pose_data.translation.z;
