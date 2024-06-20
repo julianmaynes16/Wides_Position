@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 
         //put values into a matrix
         //pos_matrix_item[0] = time_count;
-        pos_matrix_item[0] = frame.get_timestamp();
+        //pos_matrix_item[0] = frame.get_timestamp();
         pos_matrix_item[1] = pose_data.translation.x;
         pos_matrix_item[2] = pose_data.translation.y;
         pos_matrix_item[3] = pose_data.translation.z;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
 
 
         //std::cout <<"Time count: " << time_count << std::endl;
-        std::cout <<"Time count: " << frame.get_timestamp() << std::endl;
+        //std::cout <<"Time count: " << frame.get_timestamp() << std::endl;
         //clock_t end_time = clock();
         //double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC;
         //time_count += elapsed_time;
