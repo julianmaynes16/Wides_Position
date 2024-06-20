@@ -57,23 +57,21 @@ int main(int argc, char *argv[]){
     float** pos_matrix = new float*[LOOP_LIM]; 
     //creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
-    //double time_count = 0.0;
-    //auto start_time = std::chrono::high_resolution_clock::now();
+    double time_count = 0.0;
+    auto start_time = std::chrono::high_resolution_clock::now();
     myFile << "Time,x,y,z,\n";
 
     std::cout << "Beginning parsing..." << std::endl;
     for (int n = 0; n < LOOP_LIM; ++n) {
         //get position and time data 
         float* pos_matrix_item = new float[4];
-        //clock_t start_time = clock();
+        clock_t start_time = clock();
         //get data from t265
         auto frames = pipe.wait_for_frames(); 
         auto f = frames.first_or_default(RS2_STREAM_POSE); 
         auto pose_data = f.as<rs2::pose_frame>().get_pose_data();
-        rs2::frame frame; // establishes frame
         //put values into a matrix
-        //pos_matrix_item[0] = time_count;
-        //pos_matrix_item[0] = frame.get_timestamp();
+        pos_matrix_item[0] = time_count;
         pos_matrix_item[1] = pose_data.translation.x;
         pos_matrix_item[2] = pose_data.translation.y;
         pos_matrix_item[3] = pose_data.translation.z;
@@ -84,11 +82,10 @@ int main(int argc, char *argv[]){
 
 
 
-        //std::cout <<"Time count: " << time_count << std::endl;
-        std::cout <<"Time count: " << frame.get_timestamp() << std::endl;
-        //clock_t end_time = clock();
-        //double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC;
-        //time_count += elapsed_time;
+        std::cout <<"Time count: " << time_count << std::endl;
+        clock_t end_time = clock();
+        double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC;
+        time_count += elapsed_time;
         //puts data into other array
         pos_matrix[n] = pos_matrix_item;
         
