@@ -17,7 +17,9 @@ int main(int argc, char *argv[]){
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
     std::cout << "argc:" << argc << std::endl;
-    std::cout << "argv[1]" << *(argv[1]) << std::endl;
+    if(argc > 1){
+        std::cout << "argv[1]" << argv[1] << std::endl;
+    }
     std::cout << "Auto: " << (strcmp(argv[1],"Auto") != 0) << std::endl;
     std::cout << "T265 Pose - Matrix ver." << std::endl;
     std::cout << "Auto: " << (strcmp(argv[1],"auto") != 0) << std::endl;
