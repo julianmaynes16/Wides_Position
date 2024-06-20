@@ -105,8 +105,8 @@ int main(int argc, char *argv[]){
 
     std::cout << "Done! Writing to files..." << std::endl;
     //stores all datapoints in new array
-    for(int n = 0; n < LOOP_LIM; n++){ 
-        myFile << std::setprecision(4) << pos_matrix[n][0] << "," << pos_matrix[n][1] << "," << pos_matrix[n][2] << "," << pos_matrix[n][3] << ",\n";
+    for(int i = 0; i < n; i++){ 
+        myFile << std::setprecision(4) << pos_matrix[i][0] << "," << pos_matrix[i][1] << "," << pos_matrix[i][2] << "," << pos_matrix[i][3] << ",\n";
     }
 
     std::cout << "Program successfully finished." << std::endl; 
