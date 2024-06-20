@@ -10,10 +10,14 @@
 #include <iostream>
 #include <cstring>
 #include <ctype.h>
-
-#define LOOP_LIM 1000
+//Shouldn't be passed ever -- dependent on how long we want loop to run for  
+#define LOOP_LIM 1000000
 //0 is default, 1 is time, 2 is auto, 3 is auto + time
 int argument;
+//default time limit in seconds
+int time_limit = 10;
+//array iterator
+ int n = 0;
 
 int main(int argc, char *argv[]){
     if(argc == 1){ // default, no input arguments, 
@@ -39,6 +43,14 @@ int main(int argc, char *argv[]){
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
     std::cout << "T265 Pose - Matrix ver." << std::endl;
+
+    if(argument == 1){ // only time given
+        time_limit = atoi(argv[1]);
+    }
+    else if(argument == 3){ // auto and time
+        time_limit = atoi(argv[2]);
+    }else
+
     if((argument == 0) || (argument == 1)){ // If no auto is given or only argument is time
         std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
         int value = gpioRead(17);
@@ -62,7 +74,7 @@ int main(int argc, char *argv[]){
     myFile << "Time,x,y,z,\n";
 
     std::cout << "Beginning parsing..." << std::endl;
-    for (int n = 0; n < LOOP_LIM; ++n) {
+    while(time_count < time_limit){
         //get position and time data 
         float* pos_matrix_item = new float[4];
         clock_t start_time = clock();
@@ -88,7 +100,7 @@ int main(int argc, char *argv[]){
         time_count += elapsed_time;
         //puts data into other array
         pos_matrix[n] = pos_matrix_item;
-        
+        n++;
     }
 
     std::cout << "Done! Writing to files..." << std::endl;
