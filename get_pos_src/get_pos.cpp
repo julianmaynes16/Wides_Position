@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     std::cout << "Beginning data collection..." << std::endl;
     rs2::pipeline pipe;// t265 pipeline declaration
     rs2::config cfg;
-    rs2::frame frame;
+    //rs2::frame frame;
     cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
     pipe.start(cfg);
     std::cout << "Pipeline successfully started" << std::endl;
