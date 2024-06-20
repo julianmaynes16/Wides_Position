@@ -9,23 +9,37 @@
 #include <fstream>
 #include <iostream>
 #include <cstring>
+#include <ctype.h>
 
 #define LOOP_LIM 1000
+//0 is default, 1 is time, 2 is auto, 3 is auto + time
+int argument;
 
 int main(int argc, char *argv[]){
+    if(argc == 1){ // default, no input arguments, 
+        argument = 0;
+    }else if(argc == 2){ // 1 argument
+        if(isdigit(argv[1])){
+            argument = 1; // time only
+        }
+        else {
+            if((strcmp(argv[1], "Auto") == 0) || (strcmp(argv[1], "auto") == 0))
+            argument = 2; // auto only
+            else{
+                std::cout << Error: Invalid argument;
+            }
+        }
+    }else if(argc == 3){ // 2 arguments
+        argument = 3;
+    }else{
+        std::cout << "Error: Too many arguments." << std::endl;
+        return 0;
+    }
     gpioInitialise();
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
-    std::cout << "argc:" << argc << std::endl;
-    if(argc > 1){
-        std::cout << "argv[1]" << argv[1] << std::endl;
-        std::cout << "Auto: " << (strcmp(argv[1],"Auto") != 0) << std::endl;
-        std::cout << "auto: " << (strcmp(argv[1],"auto") != 0) << std::endl;
-
-    }
     std::cout << "T265 Pose - Matrix ver." << std::endl;
-
-    if((argc == 2) && ((strcmp(argv[1],"Auto") != 0) && (strcmp(argv[1], "auto") != 0))){ // If the first argument isn't auto, require pulse
+    if((argument == 0) && (argument == 1)){ // If no auto is given or only argument is time
         std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
         int value = gpioRead(17);
         //read returns 1 if pin is HIGH
