@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
     }
     std::cout << "Auto: " << (strcmp(argv[1],"Auto") != 0) << std::endl;
     std::cout << "T265 Pose - Matrix ver." << std::endl;
-    std::cout << "Auto: " << (strcmp(argv[1],"auto") != 0) << std::endl;
+    std::cout << "auto: " << (strcmp(argv[1],"auto") != 0) << std::endl;
 
     if((argc == 2) && ((strcmp(argv[1],"Auto") != 0) && (strcmp(argv[1], "auto") != 0))){ // If the first argument isn't auto, require pulse
         std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
