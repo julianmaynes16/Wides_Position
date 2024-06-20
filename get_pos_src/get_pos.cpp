@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
     std::cout << "T265 Pose - Matrix ver." << std::endl;
-    if((argument == 0) && (argument == 1)){ // If no auto is given or only argument is time
+    if((argument == 0) || (argument == 1)){ // If no auto is given or only argument is time
         std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
         int value = gpioRead(17);
         //read returns 1 if pin is HIGH
