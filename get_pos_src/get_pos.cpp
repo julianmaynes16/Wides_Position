@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
     //establishes pin 17 as input
     gpioSetMode(17, PI_INPUT);
     std::cout << "T265 Pose - Matrix ver." << std::endl;
-    if((strcmp(argv[1],"Auto") != 0) || (strcmp(argv[1], "auto") != 0)){ // If the first argument isn't auto, require pulse
+    if((argc == 2) && ((strcmp(argv[1],"Auto") != 0) || (strcmp(argv[1], "auto") != 0))){ // If the first argument isn't auto, require pulse
         std::cout << "Provide pulse to GPIO 17 to begin" << std::endl;
         int value = gpioRead(17);
         //read returns 1 if pin is HIGH
