@@ -19,14 +19,14 @@ int main(int argc, char *argv[]){
     if(argc == 1){ // default, no input arguments, 
         argument = 0;
     }else if(argc == 2){ // 1 argument
-        if(isdigit(argv[1])){
+        if(isdigit(*(argv[1]))){
             argument = 1; // time only
         }
         else {
             if((strcmp(argv[1], "Auto") == 0) || (strcmp(argv[1], "auto") == 0))
             argument = 2; // auto only
             else{
-                std::cout << Error: Invalid argument;
+                std::cout << "Error: Invalid argument" << std::endl;
             }
         }
     }else if(argc == 3){ // 2 arguments
