@@ -50,12 +50,10 @@ int main(int argc, char *argv[]){
     std::cout << "Beginning data collection..." << std::endl;
     rs2::pipeline pipe;// t265 pipeline declaration
     rs2::config cfg;
-    rs2::frame frame;
     cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
     pipe.start(cfg);
     std::cout << "Pipeline successfully started" << std::endl;
     gpioTerminate();
-    //rs2::frame::get_timestamp
     float** pos_matrix = new float*[LOOP_LIM]; 
     //creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
@@ -72,7 +70,7 @@ int main(int argc, char *argv[]){
         auto frames = pipe.wait_for_frames(); 
         auto f = frames.first_or_default(RS2_STREAM_POSE); 
         auto pose_data = f.as<rs2::pose_frame>().get_pose_data();
-
+        rs2::frame frame; // establishes frame
         //put values into a matrix
         //pos_matrix_item[0] = time_count;
         //pos_matrix_item[0] = frame.get_timestamp();
