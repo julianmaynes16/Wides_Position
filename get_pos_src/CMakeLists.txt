@@ -10,3 +10,4 @@ add_executable(Get_Pos get_pos.cpp)
 
 target_link_libraries(Get_Pos /usr/local/lib/librealsense2.so.2.48.0)
 target_link_libraries(Get_Pos ${PIGPIO_LIBRARIES})
+set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
