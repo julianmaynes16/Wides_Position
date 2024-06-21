@@ -70,28 +70,32 @@ int main(int argc, char *argv[]){
     //creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
     double time_count = 0.0;
-    myFile << "Time,x,y,z,\n";
+    myFile << "Time,X,Y,Z,C\n";
 
     std::cout << "Beginning parsing..." << std::endl;
     while(time_count < time_limit){
         //get position and time data 
-        float* pos_matrix_item = new float[4];
+        float* pos_matrix_item = new float[5];
         auto start_time = std::chrono::high_resolution_clock::now();
         //get data from t265
         auto frames = pipe.wait_for_frames(); 
         auto f = frames.first_or_default(RS2_STREAM_POSE); 
         auto pose_data = f.as<rs2::pose_frame>().get_pose_data();
+        uint8_t confidence = pose_data.tracker_confidence;
         //put values into a matrix
         pos_matrix_item[0] = time_count;
         pos_matrix_item[1] = pose_data.translation.x;
         pos_matrix_item[2] = pose_data.translation.y;
         pos_matrix_item[3] = pose_data.translation.z;
+        pos_matrix_item[4] = confidence;
 
         // Print the x, y, z values of the translation, relative to initial position -- DEBUG PURPOSES
-        std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " <<
-        pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
-
+        std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " << pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
         std::cout <<"Time count: " << time_count << std::endl;
+        std::cout << "Confidence: " << confidence << std::endl;
+        if(confidence < 2){
+            std::cout << "WARNING: Data is unreliable. Move to a brighter area and/or move away from the wall." << std::endl;
+        }
         auto end_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed_time = end_time - start_time;
         double elapsed_seconds = elapsed_time.count();
@@ -104,7 +108,7 @@ int main(int argc, char *argv[]){
     std::cout << "Done! Writing to files..." << std::endl;
     //stores all datapoints in new array
     for(int i = 0; i < n; i++){ 
-        myFile << std::setprecision(4) << pos_matrix[i][0] << "," << pos_matrix[i][1] << "," << pos_matrix[i][2] << "," << pos_matrix[i][3] << ",\n";
+        myFile << std::setprecision(4) << pos_matrix[i][0] << "," << pos_matrix[i][1] << "," << pos_matrix[i][2] << "," << pos_matrix[i][3] << "," << pos_matrix[i][4] << ",\n";
     }
 
     std::cout << "Program successfully finished." << std::endl; 
