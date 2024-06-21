@@ -89,8 +89,8 @@ int main(int argc, char *argv[]){
         pos_matrix_item[3] = pose_data.translation.z;
 
         // Print the x, y, z values of the translation, relative to initial position -- DEBUG PURPOSES
-        //std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " <<
-        //pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
+        std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " <<
+        pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
 
 
 
