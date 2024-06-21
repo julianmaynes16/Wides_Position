@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
     //creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
     double time_count = 0.0;
-    auto start_time = std::chrono::high_resolution_clock::now();
+    auto starting_time = std::chrono::high_resolution_clock::now();
     myFile << "Time,x,y,z,\n";
 
     std::cout << "Beginning parsing..." << std::endl;
@@ -92,11 +92,9 @@ int main(int argc, char *argv[]){
         std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " <<
         pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
 
-
-
         std::cout <<"Time count: " << time_count << std::endl;
-        clock_t end_time = clock();
-        double elapsed_time = double(end_time - start_time) / CLOCKS_PER_SEC;
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto elapsed_time = std::chrono::duration<double>(end_time - starting_time).count();
         time_count += elapsed_time;
         //puts data into other array
         pos_matrix[n] = pos_matrix_item;
