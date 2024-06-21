@@ -70,14 +70,13 @@ int main(int argc, char *argv[]){
     //creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
     double time_count = 0.0;
-    auto starting_time = std::chrono::high_resolution_clock::now();
     myFile << "Time,x,y,z,\n";
 
     std::cout << "Beginning parsing..." << std::endl;
     while(time_count < time_limit){
         //get position and time data 
         float* pos_matrix_item = new float[4];
-        clock_t start_time = clock();
+        auto start_time = std::chrono::high_resolution_clock::now();
         //get data from t265
         auto frames = pipe.wait_for_frames(); 
         auto f = frames.first_or_default(RS2_STREAM_POSE); 
@@ -94,8 +93,9 @@ int main(int argc, char *argv[]){
 
         std::cout <<"Time count: " << time_count << std::endl;
         auto end_time = std::chrono::high_resolution_clock::now();
-        auto elapsed_time = std::chrono::duration<double>(end_time - starting_time).count();
-        time_count += elapsed_time;
+        std::chrono::duration<double> elapsed_time = end_time - start_time;
+        double elapsed_seconds = elapsed_time.count();
+        time_count += elapsed_seconds;
         //puts data into other array
         pos_matrix[n] = pos_matrix_item;
         n++;
