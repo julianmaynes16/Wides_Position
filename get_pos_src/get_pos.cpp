@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
         // Print the x, y, z values of the translation, relative to initial position -- DEBUG PURPOSES
         std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " << pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
         std::cout << "Time count: " << time_count << std::endl;
-        std::cout << "Confidence: " << confidence << std::endl;
+        std::cout << "Confidence: " << pose_data.tracker_confidence << std::endl;
         if (pose_data.tracker_confidence < 2)
         {
             std::cout << "WARNING: Data is unreliable. Move to a brighter area and/or move away from the wall." << std::endl;
