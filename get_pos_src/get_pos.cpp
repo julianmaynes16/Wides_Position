@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
         time_count += elapsed_seconds;
         // puts data into other array
         pos_matrix[n] = pos_matrix_item;
-        gpioWrite(27,0);
+        //gpioWrite(27,0);
         n++;
     }
     gpioTerminate();
