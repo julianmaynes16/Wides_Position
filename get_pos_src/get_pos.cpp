@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
     pipe.start(cfg);
     std::cout << "Pipeline successfully started" << std::endl;
-    gpioTerminate();
+
     float **pos_matrix = new float *[LOOP_LIM];
     // creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         gpioWrite(27,0);
         n++;
     }
-
+    gpioTerminate();
     std::cout << "Done! Writing to files..." << std::endl;
     // stores all datapoints in new array
     for (int i = 0; i < n; i++)
