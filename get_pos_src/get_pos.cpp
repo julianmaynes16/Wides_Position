@@ -18,6 +18,8 @@ int argument;
 int time_limit = 10;
 // array iterator
 int n = 0;
+//light delay
+int warn_delay = 0;
 
 int main(int argc, char *argv[])
 {
@@ -114,6 +116,7 @@ int main(int argc, char *argv[])
         {
             std::cout << "WARNING: Data is unreliable. Move to a brighter area and/or move away from the wall." << std::endl;
             gpioWrite(27,1);
+            warn_delay = time_count + 1;
         }
         auto end_time = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> elapsed_time = end_time - start_time;
@@ -121,7 +124,9 @@ int main(int argc, char *argv[])
         time_count += elapsed_seconds;
         // puts data into other array
         pos_matrix[n] = pos_matrix_item;
-        //gpioWrite(27,0);
+        if (time_count > warn_delay){
+            gpioWrite(27,0);
+        }
         n++;
     }
     gpioTerminate();
