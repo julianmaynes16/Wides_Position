@@ -58,6 +58,19 @@ int main(int argc, char *argv[])
     gpioSetMode(27, PI_OUTPUT);
     std::cout << "T265 Pose - Matrix ver." << std::endl;
 
+    std::cout << "Starting pipeline..." << std::endl;
+    rs2::pipeline pipe; // t265 pipeline declaration
+    rs2::config cfg;
+    cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
+    pipe.start(cfg);
+    std::cout << "Pipeline successfully started" << std::endl;
+
+    float **pos_matrix = new float *[LOOP_LIM];
+    // creates and initializes csv output file
+    std::ofstream myFile("pos_result.csv");
+    double time_count = 0.0;
+    myFile << "Time,X,Y,Z,C\n";
+
     if (argument == 1)
     { // only time given
         time_limit = atoi(argv[1]);
@@ -78,18 +91,6 @@ int main(int argc, char *argv[])
             value = gpioRead(17);
         }
     }
-    std::cout << "Beginning data collection..." << std::endl;
-    rs2::pipeline pipe; // t265 pipeline declaration
-    rs2::config cfg;
-    cfg.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
-    pipe.start(cfg);
-    std::cout << "Pipeline successfully started" << std::endl;
-
-    float **pos_matrix = new float *[LOOP_LIM];
-    // creates and initializes csv output file
-    std::ofstream myFile("pos_result.csv");
-    double time_count = 0.0;
-    myFile << "Time,X,Y,Z,C\n";
 
     std::cout << "Beginning parsing..." << std::endl;
     while (time_count < time_limit)
