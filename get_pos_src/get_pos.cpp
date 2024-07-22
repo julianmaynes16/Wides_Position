@@ -24,7 +24,7 @@ int warn_delay = 0;
 //default to require pulse
 bool auto_flag = false;
 //defualt max samplerate
-sample_choke = 0;
+double sample_choke = 0;
 
 int main(int argc, char *argv[])
 {
