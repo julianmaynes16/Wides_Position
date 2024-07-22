@@ -28,12 +28,12 @@ double sample_choke = 0;
 
 int main(int argc, char *argv[])
 {
-    if(argc >= 4){
+    if(argc >= 6){
         std::cout << "Error: Too many arguments." << std::endl;
         return 0;
     }
-    //loop through arguments
-    for(int i = 1; i < argc; i++){
+    //loop through arguments, first 2 arguments, sudo and command, are skipped
+    for(int i = 2; i < argc; i++){
         if(std::string(argv[i]).find("mode=") !=std::string::npos){
             //mode= was found, next thing will be auto
 
