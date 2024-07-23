@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     for(int i = 2; i < argc; i++){
         if(std::string(argv[i]).find("mode=") != std::string::npos){
             //mode= was found, next thing will be auto
-
+            std::cout <<"Hi" << std::endl;
             if(std::string(argv[i]).find("auto") != std::string::npos){
                 std::cout <<"Hi" << std::endl;
                 auto_flag = true;
@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
         }
         else if(std::string(argv[i]).find("time=") != std::string::npos){
             time_limit = stoi(std::string(argv[i]).substr(5));
+            std::cout << "Time limit: " << time_limit << std::endl;
         }
         else if(std::string(argv[i]).find("sample_rate=") != std::string::npos){
             sample_choke = stoi(std::string(argv[i]).substr(12));
