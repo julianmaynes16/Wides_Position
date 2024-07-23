@@ -34,18 +34,18 @@ int main(int argc, char *argv[])
     }
     //loop through arguments, first 2 arguments, sudo and command, are skipped
     for(int i = 2; i < argc; i++){
-        if(std::string(argv[i]).find("mode=") !=std::string::npos){
+        if(std::string(argv[i]).find("mode=") != std::string::npos){
             //mode= was found, next thing will be auto
 
-            if(std::string(argv[i]).find("auto")){
+            if(std::string(argv[i]).find("auto") != std::string::npos){
                 auto_flag = true;
             }
         }
-        else if(std::string(argv[i]).find("time=")){
-            time_limit = stoi(std::string(argv[i]).erase(0,4));
+        else if(std::string(argv[i]).find("time=") != std::string::npos){
+            time_limit = stoi(std::string(argv[i]).substr(5));
         }
-        else if(std::string(argv[i]).find("sample_rate=")){
-            sample_choke = stoi(std::string(argv[i]).erase(0,11));
+        else if(std::string(argv[i]).find("sample_rate=") != std::string::npos){
+            sample_choke = stoi(std::string(argv[i]).substr(12));
         }
     }
     
