@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
     float **pos_matrix = new float *[LOOP_LIM];
     // creates and initializes csv output file
     std::ofstream myFile("pos_result.csv");
-    double time_count = 0.0;
     myFile << "Time,X,Y,Z,C\n";
     
 
@@ -82,22 +81,21 @@ int main(int argc, char *argv[])
     }
     //beginning times
     auto choke_begin = std::chrono::high_resolution_clock::now();
+    float choke_time_since_start = 0;
     auto sample_begin = std::chrono::high_resolution_clock::now();
     std::cout << "Beginning parsing..." << std::endl;
-    while (time_count < time_limit)
+    while (choke_time_since_start < time_limit)
     {
         //current time
         auto sample_curr = std::chrono::high_resolution_clock::now();
         //current time for choke, resets to match sample rate
-        float choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
+        choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
         //current time for timestamp, never stops / resets
         float curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
 
         if(choke_time_since_start > sample_choke){
             // get position and time data
             float *pos_matrix_item = new float[5];
-            
-            std::cout << "Sample Time: " << curr_sample_time << std::endl;
             // get data from t265
             auto frames = pipe.wait_for_frames();
             auto f = frames.first_or_default(RS2_STREAM_POSE);
@@ -111,16 +109,16 @@ int main(int argc, char *argv[])
 
             // Print the x, y, z values of the translation, relative to initial position -- DEBUG PURPOSES
             std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " << pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
-            std::cout << "Time count: " << time_count << std::endl;
+            std::cout << "Time count: " << curr_sample_time << std::endl;
             std::cout << "Confidence: " << pose_data.tracker_confidence << std::endl;
             if (pose_data.tracker_confidence < 2)
             {
                 std::cout << "WARNING: Data is unreliable. Move to a brighter area and/or move away from the wall." << std::endl;
                 gpioWrite(27,1);
-                warn_delay = time_count + 1;
+                warn_delay = curr_sample_time + 1;
             }
             pos_matrix[n] = pos_matrix_item;
-            if (time_count > warn_delay){
+            if (curr_sample_time > warn_delay){
                 gpioWrite(27,0);
             }
             n++;
