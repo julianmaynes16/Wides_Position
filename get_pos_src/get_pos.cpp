@@ -79,14 +79,16 @@ int main(int argc, char *argv[])
             value = gpioRead(17);
         }
     }
+    auto choke_begin = std::chrono::high_resolution_clock::now();
     auto sample_begin = std::chrono::high_resolution_clock::now();
     std::cout << "Beginning parsing..." << std::endl;
     while (time_count < time_limit)
     {
         auto sample_curr = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> time_since_start_uncount = sample_curr - sample_begin;
-        double time_since_start = time_since_start_uncount.count();
-        if(time_since_start > sample_choke){
+        std::chrono::duration<double> choke_time_since_start_uncount = sample_curr - choke_begin;
+        float choke_time_since_start = choke_time_since_start_uncount.count();
+        float curr_sample_time = std::chrono::duration(sample_curr - sample_begin).count();
+        if(choke_time_since_start > sample_choke){
             // get position and time data
             float *pos_matrix_item = new float[5];
             auto start_time = std::chrono::high_resolution_clock::now();
@@ -95,7 +97,7 @@ int main(int argc, char *argv[])
             auto f = frames.first_or_default(RS2_STREAM_POSE);
             auto pose_data = f.as<rs2::pose_frame>().get_pose_data();
             // put values into a matrix
-            pos_matrix_item[0] = time_count;
+            pos_matrix_item[0] = curr_sample_time;
             pos_matrix_item[1] = pose_data.translation.x;
             pos_matrix_item[2] = pose_data.translation.y;
             pos_matrix_item[3] = pose_data.translation.z;
@@ -111,17 +113,12 @@ int main(int argc, char *argv[])
                 gpioWrite(27,1);
                 warn_delay = time_count + 1;
             }
-            auto end_time = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> elapsed_time = end_time - start_time;
-            double elapsed_seconds = elapsed_time.count();
-            time_count += elapsed_seconds;
-            // puts data into other array
             pos_matrix[n] = pos_matrix_item;
             if (time_count > warn_delay){
                 gpioWrite(27,0);
             }
             n++;
-            sample_begin = std::chrono::high_resolution_clock::now();
+            choke_begin = std::chrono::high_resolution_clock::now();
         }
     }
     gpioTerminate();
