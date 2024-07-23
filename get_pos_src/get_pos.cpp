@@ -34,11 +34,10 @@ int main(int argc, char *argv[])
     }
     //loop through arguments, first 2 arguments, sudo and command, are skipped
     for(int i = 2; i < argc; i++){
+        std::cout << "Argument: " << argv[i] << std::endl;
         if(std::string(argv[i]).find("mode=") != std::string::npos){
             //mode= was found, next thing will be auto
-            std::cout <<"Hi" << std::endl;
             if(std::string(argv[i]).find("auto") != std::string::npos){
-                std::cout <<"Hi" << std::endl;
                 auto_flag = true;
             }
         }
@@ -82,17 +81,17 @@ int main(int argc, char *argv[])
     }
     //beginning times
     auto choke_begin = std::chrono::high_resolution_clock::now();
-    float choke_time_since_start = 0;
+    float curr_sample_time = 0;
     auto sample_begin = std::chrono::high_resolution_clock::now();
     std::cout << "Beginning parsing..." << std::endl;
-    while (choke_time_since_start < time_limit)
+    while (curr_sample_time < time_limit)
     {
         //current time
         auto sample_curr = std::chrono::high_resolution_clock::now();
         //current time for choke, resets to match sample rate
-        choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
+        float choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
         //current time for timestamp, never stops / resets
-        float curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
+        curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
 
         if(choke_time_since_start > sample_choke){
             // get position and time data
