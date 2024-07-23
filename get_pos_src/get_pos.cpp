@@ -16,7 +16,7 @@
 // 0 is default, 1 is time, 2 is auto, 3 is auto + time
 int argument;
 // default time limit in seconds
-int time_limit = 10;
+float time_limit = 10;
 // array iterator
 int n = 0;
 //light delay
@@ -24,7 +24,7 @@ int warn_delay = 0;
 //default to require pulse
 bool auto_flag = false;
 //defualt max samplerate
-double sample_choke = 0;
+float sample_choke = 0;
 
 int main(int argc, char *argv[])
 {
@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
             }
         }
         else if(std::string(argv[i]).find("time=") != std::string::npos){
-            time_limit = stoi(std::string(argv[i]).substr(5));
+            time_limit = stof(std::string(argv[i]).substr(5));
         }
         else if(std::string(argv[i]).find("sample_rate=") != std::string::npos){
-            sample_choke = stoi(std::string(argv[i]).substr(12));
+            sample_choke = stof(std::string(argv[i]).substr(12));
         }
     }
     
