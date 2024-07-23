@@ -85,9 +85,9 @@ int main(int argc, char *argv[])
     while (time_count < time_limit)
     {
         auto sample_curr = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> choke_time_since_start_uncount = sample_curr - choke_begin;
-        float choke_time_since_start = choke_time_since_start_uncount.count();
-        float curr_sample_time = std::chrono::duration(sample_curr - sample_begin).count();
+        std::chrono::duration<float> choke_time_since_start_uncount = sample_curr - choke_begin;
+        float choke_time_since_start = choke_time_since_start_uncount.count(); 
+        float curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
         if(choke_time_since_start > sample_choke){
             // get position and time data
             float *pos_matrix_item = new float[5];
