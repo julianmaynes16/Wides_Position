@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
             //mode= was found, next thing will be auto
 
             if(std::string(argv[i]).find("auto") != std::string::npos){
+                std::cout <<"Hi" << std::endl;
                 auto_flag = true;
             }
         }
@@ -79,19 +80,24 @@ int main(int argc, char *argv[])
             value = gpioRead(17);
         }
     }
+    //beginning times
     auto choke_begin = std::chrono::high_resolution_clock::now();
     auto sample_begin = std::chrono::high_resolution_clock::now();
     std::cout << "Beginning parsing..." << std::endl;
     while (time_count < time_limit)
     {
+        //current time
         auto sample_curr = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float> choke_time_since_start_uncount = sample_curr - choke_begin;
-        float choke_time_since_start = choke_time_since_start_uncount.count(); 
+        //current time for choke, resets to match sample rate
+        float choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
+        //current time for timestamp, never stops / resets
         float curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
+
         if(choke_time_since_start > sample_choke){
             // get position and time data
             float *pos_matrix_item = new float[5];
-            auto start_time = std::chrono::high_resolution_clock::now();
+            
+            std::cout << "Sample Time: " << curr_sample_time << std::endl;
             // get data from t265
             auto frames = pipe.wait_for_frames();
             auto f = frames.first_or_default(RS2_STREAM_POSE);
