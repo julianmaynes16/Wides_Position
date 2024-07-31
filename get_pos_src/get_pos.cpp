@@ -25,10 +25,12 @@ int warn_delay = 0;
 bool auto_flag = false;
 //defualt max samplerate
 float sample_choke = 0;
+//Debug mode prints out all position readings
+bool debug_mode = false;
 
 int main(int argc, char *argv[])
 {
-    if(argc >= 6){
+    if(argc >= 7){
         std::cout << "Error: Too many arguments." << std::endl;
         return 0;
     }
@@ -45,6 +47,9 @@ int main(int argc, char *argv[])
         }
         else if(std::string(argv[i]).find("sample_rate=") != std::string::npos){
             sample_choke = stof(std::string(argv[i]).substr(12));
+        }
+        else if(std::string(argv[i]).find("debug") != std::string::npos){
+            debug_mode = true;
         }
     }
     
@@ -81,7 +86,7 @@ int main(int argc, char *argv[])
     auto choke_begin = std::chrono::high_resolution_clock::now();
     float curr_sample_time = 0;
     auto sample_begin = std::chrono::high_resolution_clock::now();
-    std::cout << "Beginning parsing..." << std::endl;
+    std::cout << "Reading..." << std::endl;
     while (curr_sample_time < time_limit)
     {
         //current time
@@ -106,9 +111,11 @@ int main(int argc, char *argv[])
             pos_matrix_item[4] = pose_data.tracker_confidence;
 
             // Print the x, y, z values of the translation, relative to initial position -- DEBUG PURPOSES
-            std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " << pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
-            std::cout << "Time count: " << curr_sample_time << std::endl;
-            std::cout << "Confidence: " << pose_data.tracker_confidence << std::endl;
+            if(debug_mode){
+                std::cout << "\r" << "Device Position: " << std::setprecision(4) << std::fixed << pose_data.translation.x << " " << pose_data.translation.y << " " << pose_data.translation.z << " (meters)" << std::endl;
+                std::cout << "Time count: " << curr_sample_time << std::endl;
+                std::cout << "Confidence: " << pose_data.tracker_confidence << std::endl;
+            }
             if (pose_data.tracker_confidence < 2)
             {
                 std::cout << "WARNING: Data is unreliable. Move to a brighter area and/or move away from the wall." << std::endl;
