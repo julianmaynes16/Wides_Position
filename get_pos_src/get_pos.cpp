@@ -95,6 +95,15 @@ int main(int argc, char *argv[])
         float choke_time_since_start = std::chrono::duration<float>(sample_curr - choke_begin).count();
         //current time for timestamp, never stops / resets
         curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
+        
+        auto now = std::chrono::system_clock::now();
+    
+        // Convert time_point to time_t for formatting
+        std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    
+        // Convert to local time and print
+        std::cout << "Current system time: " << std::ctime(&currentTime);
+
 
         if(choke_time_since_start > sample_choke){
             // get position and time data
