@@ -82,6 +82,8 @@ int main(int argc, char *argv[])
             value = gpioRead(17);
         }
     }
+    //REMOVE BELOW
+    auto begin = std::chrono::high_resolution_clock::now();
     //beginning times
     auto choke_begin = std::chrono::high_resolution_clock::now();
     float curr_sample_time = 0;
@@ -96,13 +98,10 @@ int main(int argc, char *argv[])
         //current time for timestamp, never stops / resets
         curr_sample_time = std::chrono::duration<float>(sample_curr - sample_begin).count();
         
-        auto now = std::chrono::system_clock::now();
-    
-        // Convert time_point to time_t for formatting
-        std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+        auto now = std::chrono::high_resolution_clock::now();
     
         // Convert to local time and print
-        std::cout << "Current system time: " << std::ctime(&currentTime);
+        std::cout << "Current time " << std::chrono::duration<double>(begin - now).count()<< std::endl;
 
 
         if(choke_time_since_start > sample_choke){
